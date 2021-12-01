@@ -1,6 +1,6 @@
 CC :=gcc
 CPP :=g++
-LDFLAGS :=
+LDFLAGS :=-W -Wall -O2 -ansi -pedantic
 C_SOURCES :=$(wildcard *.c)
 C_EXECUTABLE :=$(C_SOURCES:.c=)
 CPP_SOURCES :=$(wildcard *.cpp)
