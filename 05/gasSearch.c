@@ -16,12 +16,11 @@ int partOne() {
   struct Point dest;
 
   int b[MAPSIZE][MAPSIZE];
-  int p;
-  int s;
   int i;
-  for (s = 0; s < MAPSIZE; s++) {
-    for (p = 0; p < MAPSIZE; p++) {
-      b[s][p] = 0;
+  int j;
+  for (i = 0; i < MAPSIZE; i++) {
+    for (j = 0; j < MAPSIZE; j++) {
+      b[i][j] = 0;
     }
   }
 
@@ -49,7 +48,6 @@ int partOne() {
       struct Point diagSrc;
       struct Point diagDest;
       int length;
-      int i;
       if (src.x> dest.x){
         printf("%d %d", src.x, dest.x);
         length = src.x - dest.x;
@@ -84,9 +82,9 @@ int partOne() {
     }
   }
 
-  for (s = 0; s < MAPSIZE; s++) {
-    for (p = 0; p < MAPSIZE; p++) {
-      if (b[p][s] > 1) {
+  for (i = 0; i < MAPSIZE; i++) {
+    for (j = 0; j < MAPSIZE; j++) {
+      if (b[j][i] > 1) {
         count++;
       }
     }
