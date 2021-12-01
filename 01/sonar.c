@@ -5,10 +5,10 @@ int partOne() {
   char line[100];
   int ups = 0;
   FILE *in_file = fopen("input.text", "r");
-
-  fgets(line, 100, in_file);
-  int previousNumber = atoi(line);
+  int previousNumber;
   int currentNumber;
+  fgets(line, 100, in_file);
+  previousNumber = atoi(line);
 
   while (fgets(line, 100, in_file) != NULL) {
     currentNumber = atoi(line);
@@ -24,6 +24,8 @@ int partTwo() {
   int count = 0;
   char line[100];
   int ups = 0;
+  int previousNumber;
+  int currentNumber;
   FILE *in_file = fopen("input.text", "r");
 
   fgets(line, 100, in_file);
@@ -32,8 +34,7 @@ int partTwo() {
   window[1] = atoi(line);
   fgets(line, 100, in_file);
   window[2] = atoi(line);
-  int previousNumber = window[0] + window[1] + window[2];
-  int currentNumber;
+  previousNumber = window[0] + window[1] + window[2];
 
   while (fgets(line, 100, in_file) != NULL) {
     window[count % 3] = atoi(line);
@@ -50,4 +51,5 @@ int partTwo() {
 int main() {
   printf("%d\n", partOne());
   printf("%d\n", partTwo());
+  return EXIT_SUCCESS;
 }
