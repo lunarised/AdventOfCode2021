@@ -14,5 +14,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: compileCheck
-      run: gcc -W -Wall -O2 -ansi -pedantic ./01/sonar.c
+      run: make ./Makefile
 
