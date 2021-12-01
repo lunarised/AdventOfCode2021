@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define INPUT "test.text"
-#define MAPSIZE 10
+#define INPUT "input.text"
+#define MAPSIZE 1000
 
 struct Point {
   int x;
@@ -44,6 +44,43 @@ int partOne() {
       for (xI = min(src.x, dest.x); xI <= max(src.x, dest.x); xI++) {
         b[xI][src.y] += 1;
       }
+    }
+    else{
+      struct Point diagSrc;
+      struct Point diagDest;
+      int length;
+      int i;
+      if (src.x> dest.x){
+        printf("%d %d", src.x, dest.x);
+        length = src.x - dest.x;
+        diagSrc.x = dest.x;
+        diagSrc.y = dest.y;
+        diagDest.x = src.x;
+        diagDest.y = src.y;
+      }
+      else{
+        printf("HIT");
+        length = dest.x - src.x;
+        diagSrc.x = src.x;
+        diagSrc.y = src.y;
+        diagDest.x = dest.x;
+        diagDest.y = dest.y;
+      }
+
+      /* If rising */
+      if (diagDest.y < diagSrc.y){
+        printf("%d, %d -> %d, %d :: %d\n", src.x, src.y, dest.x, dest.y, length);
+        for (i = 0; i <= length; i++){
+          printf("%d, %d \n", diagSrc.x+i, diagSrc.y-i);
+          b[diagSrc.x+i][diagSrc.y-i] += 1;
+        }
+      }
+      else{
+            for (i = 0; i <= length; i++){
+          b[diagSrc.x+i][diagSrc.y+i] += 1;
+        }    
+      }
+
     }
   }
 
