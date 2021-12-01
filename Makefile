@@ -1,5 +1,5 @@
 CC :=gcc
-LDFLAGS :=-W -Wall -O2 -ansi -pedantic
+LDFLAGS :=-W -Wall -O2 -ansi -pedantic -Werror
 C_SOURCES :=$(wildcard */*.c)
 C_EXECUTABLE :=$(C_SOURCES:.c=)
  
