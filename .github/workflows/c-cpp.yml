@@ -1,5 +1,4 @@
-name: C/C++ CI
-
+name: Advent of Code
 on:
   push:
     branches: [ master ]
