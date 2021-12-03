@@ -23,7 +23,6 @@ int charBitsToInt(char bits[]) {
 
 int numBitsToInt(int bits[]) {
   int i;
-
   int value = 0;
   int power = 0;
 
@@ -62,15 +61,16 @@ int MostPopularBits() {
   int parseNumber = 0;
   FILE* in_file;
   char line[100];
-  char firstNumber[100];
+  char firstNumber[LEN];
   int mostPopular[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   /* Go through each digit */
   for (parseNumber = 0; parseNumber < LEN; parseNumber++) {
     int length = 0;
     in_file = fopen(INPUT, "r");
-    while (fgets(line, 100, in_file) != NULL) {
+    while (fgets(line, LEN + 3, in_file) != NULL) {
       int i = 0;
       int failure = 0;
+      line[strcspn(line, "\n")] = 0;
       for (i = 0; i < parseNumber; i++) {
         if ((line[i] == '1' && mostPopular[i] != 1) ||
             (line[i] == '0' && mostPopular[i] != 0)) {
@@ -103,7 +103,7 @@ int LeastPopularBits() {
   int parseNumber = 0;
   FILE* in_file;
   char line[100];
-  char firstNumber[100];
+  char firstNumber[LEN];
   int leastPopular[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   /* Go through each digit */
   for (parseNumber = 0; parseNumber < LEN; parseNumber++) {
@@ -112,6 +112,7 @@ int LeastPopularBits() {
     while (fgets(line, 100, in_file) != NULL) {
       int i = 0;
       int failure = 0;
+      line[strcspn(line, "\n")] = 0;
       for (i = 0; i < parseNumber; i++) {
         if ((line[i] == '1' && leastPopular[i] != 1) ||
             (line[i] == '0' && leastPopular[i] != 0)) {
