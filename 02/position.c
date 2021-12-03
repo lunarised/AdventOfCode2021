@@ -2,25 +2,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+struct Command {
+  int command;
+  int arg;
+};
+
+enum commandType
+{
+  forward,
+  up,
+  down
+};
+
+int stringToCommand(char* cmdString){
+  if (strcmp("forward", cmdString) == 0){
+    return forward;
+  }
+   else if (strcmp("up", cmdString) == 0){
+    return up;
+  }
+   else if (strcmp("down", cmdString) == 0){
+    return down;
+  }
+}
+
 int partOne() {
   int xPos = 0;
   int yPos = 0;
   int value;
+  struct Command c;
   char line[100];
-  char* command;
   FILE* in_file = fopen("input.text", "r");
 
   while (fgets(line, 100, in_file) != NULL) {
-    command = strtok(line, " ");
-    value = atoi(strtok(NULL, " "));
-    if (strcmp(command, "forward") == 0) {
-      xPos += value;
-    }
-    if (strcmp(command, "up") == 0) {
-      yPos += value;
-    }
-    if (strcmp(command, "down") == 0) {
-      yPos -= value;
+
+    c.command = stringToCommand(strtok(line, " "));
+    c.arg = atoi(strtok(NULL, " "));
+
+    switch(c.command){
+      case forward:
+        xPos += c.arg;
+        break;
+      case up:
+        yPos += c.arg;
+        break;
+      case down:
+        yPos -= c.arg;
+        break;
     }
   }
   return abs(xPos * yPos);
