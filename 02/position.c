@@ -25,6 +25,7 @@ int stringToCommand(char* cmdString){
    else if (strcmp("down", cmdString) == 0){
     return down;
   }
+  return -1;
 }
 
 int partOne() {
