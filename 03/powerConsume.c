@@ -12,14 +12,12 @@ int charBitsToInt(char bits[]) {
   int power = 0;
   size_t len = strlen(bits);
   for (i = len - 1; i != -1; i--) {
-    printf("%c is the character im working on\n", bits[i]);
     if (bits[i] == '1') {
       value += pow(2, power);
       power++;
     }
     if (bits[i] == '0') power++;
   }
-  printf("%d\n", value);
   return value;
 }
 
@@ -33,35 +31,33 @@ int numBitsToInt(int bits[]) {
     if (bits[i] == 1) value += pow(2, power);
     power++;
   }
-  printf("%d\n", value);
   return value;
 }
-/*
+
 int partOne() {
   int bitN;
   int bits[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-  char gammaBits[12];
-  char epsilonBits[12];
+  char gammaBits[100];
+  char epsilonBits[100];
   char line[100];
   int lineCount = 0;
-  FILE* in_file = fopen("input.text", "r");
+  FILE* in_file = fopen(INPUT, "r");
   while (fgets(line, 100, in_file) != NULL) {
-    for (bitN = 0; bitN < 12; bitN++) {
+    for (bitN = 0; bitN < LEN; bitN++) {
       if (line[bitN] == '1') {
         bits[bitN]++;
       }
     }
     lineCount++;
   }
-  for (bitN = 0; bitN < 12; bitN++) {
-    printf("%d ", bits[bitN]);
+  for (bitN = 0; bitN < LEN; bitN++) {
     gammaBits[bitN] = bits[bitN] >= lineCount / 2 ? '1' : '0';
     epsilonBits[bitN] = bits[bitN] > lineCount / 2 ? '0' : '1';
   }
 
-  return (bitsToInt(gammaBits) * bitsToInt(epsilonBits));
+  return (charBitsToInt(gammaBits) * charBitsToInt(epsilonBits));
 }
-*/
+
 int MostPopularBits() {
   int parseNumber = 0;
   FILE* in_file;
@@ -83,7 +79,7 @@ int MostPopularBits() {
       }
       if (failure == 0) {
         if (length == 0) {
-          memcpy(firstNumber, line, 12);
+          memcpy(firstNumber, line, LEN);
         }
         if (line[parseNumber] == '1') {
           mostPopular[parseNumber]++;
@@ -92,14 +88,10 @@ int MostPopularBits() {
       }
     }
 
-    printf("%d on parse %d, length %d soooo ", mostPopular[parseNumber],
-           parseNumber, length);
     mostPopular[parseNumber] =
         mostPopular[parseNumber] >= (length - mostPopular[parseNumber]) ? 1 : 0;
-    printf("%d\n", mostPopular[parseNumber]);
-    if (length == 1) {
-      printf("EARLY EXIT");
 
+    if (length == 1) {
       return charBitsToInt(firstNumber);
     }
   }
@@ -128,7 +120,7 @@ int LeastPopularBits() {
       }
       if (failure == 0) {
         if (length == 0) {
-          memcpy(firstNumber, line, 12);
+          memcpy(firstNumber, line, LEN);
           strtok(firstNumber, "\n");
         }
         if (line[parseNumber] == '0') {
@@ -143,7 +135,6 @@ int LeastPopularBits() {
                                                                          : 0;
 
     if (length == 1) {
-      printf("EARLY EXIT |%s|\n", firstNumber);
       return charBitsToInt(firstNumber);
     }
   }
@@ -152,7 +143,7 @@ int LeastPopularBits() {
 }
 
 int main() {
-  /*printf("%d\n", partOne());*/
+  printf("%d\n", partOne());
   printf("%d\n", MostPopularBits() * LeastPopularBits());
   return EXIT_SUCCESS;
 }
