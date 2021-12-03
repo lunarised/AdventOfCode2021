@@ -10,8 +10,7 @@ int charBitsToInt(char bits[]) {
   int i;
   int value = 0;
   int power = 0;
-  size_t len = strlen(bits);
-  for (i = len - 1; i != -1; i--) {
+  for (i = LEN - 1; i != -1; i--) {
     if (bits[i] == '1') {
       value += pow(2, power);
       power++;
@@ -36,12 +35,12 @@ int numBitsToInt(int bits[]) {
 int partOne() {
   int bitN;
   int bits[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-  char gammaBits[100];
-  char epsilonBits[100];
-  char line[100];
+  char gammaBits[LEN];
+  char epsilonBits[LEN];
+  char line[LEN];
   int lineCount = 0;
   FILE* in_file = fopen(INPUT, "r");
-  while (fgets(line, 100, in_file) != NULL) {
+  while (fgets(line, LEN, in_file) != NULL) {
     for (bitN = 0; bitN < LEN; bitN++) {
       if (line[bitN] == '1') {
         bits[bitN]++;
@@ -67,10 +66,11 @@ int MostPopularBits() {
   for (parseNumber = 0; parseNumber < LEN; parseNumber++) {
     int length = 0;
     in_file = fopen(INPUT, "r");
-    while (fgets(line, LEN + 3, in_file) != NULL) {
+    while (fgets(line, 100, in_file) != NULL) {
       int i = 0;
       int failure = 0;
       line[strcspn(line, "\n")] = 0;
+
       for (i = 0; i < parseNumber; i++) {
         if ((line[i] == '1' && mostPopular[i] != 1) ||
             (line[i] == '0' && mostPopular[i] != 0)) {
