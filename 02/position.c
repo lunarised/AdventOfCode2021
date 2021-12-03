@@ -31,7 +31,6 @@ int stringToCommand(char* cmdString){
 int partOne() {
   int xPos = 0;
   int yPos = 0;
-  int value;
   struct Command c;
   char line[100];
   FILE* in_file = fopen("input.text", "r");
