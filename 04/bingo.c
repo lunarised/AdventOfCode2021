@@ -9,7 +9,7 @@
 
 struct Box {
   int value;
-  int isChecked;
+  int isHit;
 };
 struct Square {
   struct Box Box[BOARDSIZE][BOARDSIZE];
@@ -38,7 +38,7 @@ struct Square makeSquare(char inputString[BOARDSIZE][20]) {
     while (token != NULL) {
       struct Box b;
       b.value = atoi(token);
-      b.isChecked = 0;
+      b.isHit = 0;
       sq.Box[line][col] = b;
 
       token = strtok(NULL, " ");
@@ -48,9 +48,49 @@ struct Square makeSquare(char inputString[BOARDSIZE][20]) {
   return sq;
 }
 
+int checkForWin(struct Square sq, int row, int col) {
+  int rowPass = 1;
+  int colPass = 1;
+  int colI;
+  int rowI;
+  /* Check Row */
+  for (colI = 0; colI < BOARDSIZE; colI++) {
+    if (sq.Box[row][colI].isHit == 0) {
+      rowPass = 0;
+    }
+  }
+  for (rowI = 0; rowI < BOARDSIZE; rowI++) {
+    if (sq.Box[rowI][col].isHit == 0) {
+      colPass = 0;
+    }
+  }
+  if (rowPass == 1 || colPass == 1) {
+    return 1;
+  }
+  return 0;
+}
+int squareValue(struct Square sq) {
+  int sum = 0;
+  int rowI = 0;
+  int colI = 0;
+  for (rowI = 0; rowI < BOARDSIZE; rowI++) {
+    for (colI = 0; colI < BOARDSIZE; colI++) {
+      if (sq.Box[rowI][colI].isHit == 0) {
+        sum += sq.Box[rowI][colI].value;
+      }
+    }
+  }
+  return sum;
+}
+
 int partOne() {
+  int hasBoardWon = 0;
   char inputString[nBALLS * 3];
+  int winningSquare = 0;
+  int winningNumber = 0;
   int i;
+  int* values;
+  int nBallDrawn;
   struct Square squares[nSQUARES];
 
   FILE* in_file = fopen(INPUT, "r");
@@ -58,7 +98,7 @@ int partOne() {
     printf("File doesnt exist");
   }
   fgets(inputString, nBALLS * 3, in_file);
-
+  values = loadBalls(inputString);
   for (i = 0; i < nSQUARES; i++) {
     int j = 0;
     /* clear whitespace */
@@ -72,11 +112,34 @@ int partOne() {
 
     squares[i] = makeSquare(squareString);
   }
-  return squares[nSQUARES - 1].Box[4][4].value;
+
+  for (nBallDrawn = 0; nBallDrawn < nBALLS; nBallDrawn++) {
+    int squareChecked = 0;
+    if (hasBoardWon != 1) {
+      for (squareChecked = 0; squareChecked < nSQUARES; squareChecked++) {
+        int row = 0;
+        for (row = 0; row < BOARDSIZE; row++) {
+          int col = 0;
+          for (col = 0; col < BOARDSIZE; col++) {
+            if (squares[squareChecked].Box[row][col].value ==
+                values[nBallDrawn]) {
+              squares[squareChecked].Box[row][col].isHit = 1;
+              hasBoardWon = checkForWin(squares[squareChecked], row, col);
+              if (hasBoardWon == 1) {
+                winningNumber = values[nBallDrawn];
+                winningSquare = squareChecked;
+                return winningNumber * squareValue(squares[winningSquare]);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return -1;
 }
 
 int main() {
-  printf("gi");
   printf("%d\n", partOne());
 
   return EXIT_SUCCESS;
