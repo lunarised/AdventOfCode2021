@@ -13,6 +13,7 @@ struct Box {
 };
 struct Square {
   struct Box Box[BOARDSIZE][BOARDSIZE];
+  int hasWon;
 };
 
 int* loadBalls(char* inp) {
@@ -30,6 +31,7 @@ int* loadBalls(char* inp) {
 struct Square makeSquare(char inputString[BOARDSIZE][20]) {
   struct Square sq;
   int line = 0;
+  sq.hasWon = 0;
   for (line = 0; line < 5; line++) {
     char* token;
     int col = 0;
@@ -128,6 +130,7 @@ int partOne() {
               if (hasBoardWon == 1) {
                 winningNumber = values[nBallDrawn];
                 winningSquare = squareChecked;
+                printf("WINNING SQUARE %d \n", winningSquare);
                 return winningNumber * squareValue(squares[winningSquare]);
               }
             }
@@ -139,8 +142,68 @@ int partOne() {
   return -1;
 }
 
+int partTwo() {
+  int hasBoardWon = 0;
+  char inputString[nBALLS * 3];
+  int winningSquare = 0;
+  int winningNumber = 0;
+  int i;
+  int* values;
+  int nBallDrawn;
+  struct Square squares[nSQUARES];
+
+  FILE* in_file = fopen(INPUT, "r");
+  if (in_file == NULL) {
+    printf("File doesnt exist");
+  }
+  fgets(inputString, nBALLS * 3, in_file);
+  values = loadBalls(inputString);
+  for (i = 0; i < nSQUARES; i++) {
+    int j = 0;
+    /* clear whitespace */
+    char squareString[5][20];
+
+    fgets(inputString, nBALLS * 3, in_file);
+    for (j = 0; j < BOARDSIZE; j++) {
+      fgets(inputString, nBALLS, in_file);
+      strcpy(squareString[j], inputString);
+    }
+
+    squares[i] = makeSquare(squareString);
+  }
+
+  for (nBallDrawn = 0; nBallDrawn < nBALLS; nBallDrawn++) {
+    int squareChecked = 0;
+
+    for (squareChecked = 0; squareChecked < nSQUARES; squareChecked++) {
+      if (squares[squareChecked].hasWon == 0) {
+        int row = 0;
+        for (row = 0; row < BOARDSIZE; row++) {
+          int col = 0;
+          for (col = 0; col < BOARDSIZE; col++) {
+            if (squares[squareChecked].Box[row][col].value ==
+                values[nBallDrawn]) {
+              squares[squareChecked].Box[row][col].isHit = 1;
+              hasBoardWon = checkForWin(squares[squareChecked], row, col);
+              if (hasBoardWon == 1) {
+                printf("%d \n", winningSquare);
+                squares[squareChecked].hasWon = 1;
+                winningNumber = values[nBallDrawn];
+                winningSquare = squareChecked;
+              }
+            }
+          }
+        }
+      } /*END OF SQUARE CHECK*/
+    }
+  }
+
+  return winningNumber * squareValue(squares[winningSquare]);
+}
+
 int main() {
   printf("%d\n", partOne());
+  printf("%d\n", partTwo());
 
   return EXIT_SUCCESS;
 }
