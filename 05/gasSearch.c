@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define INPUT "input.text"
-#define MAPSIZE 1000
+#define INPUT "test.text"
+#define MAPSIZE 10
 
 struct Point {
   int x;
@@ -26,7 +26,6 @@ int partOne() {
   }
 
   int count = 0;
-  printf("FOO");
   FILE* in_file = fopen(INPUT, "r");
   if (in_file == NULL) {
     printf("File doesnt exist");
@@ -34,7 +33,6 @@ int partOne() {
 
   while (fscanf(in_file, "%d,%d -> %d,%d", &src.x, &src.y, &dest.x, &dest.y) ==
          4) {
-    printf("%d,%d -> %d,%d", src.x, src.y, dest.x, dest.y);
     if (src.x == dest.x) {
       int yI;
       for (yI = min(src.y, dest.y); yI <= max(src.y, dest.y); yI++) {
@@ -51,7 +49,9 @@ int partOne() {
 
   for (s = 0; s < MAPSIZE; s++) {
     for (p = 0; p < MAPSIZE; p++) {
-      printf("%d", b[s][p]);
+      if (b[p][s] > 1) {
+        count++;
+      }
     }
   }
   return count;
