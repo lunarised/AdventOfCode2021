@@ -130,7 +130,6 @@ int partOne() {
               if (hasBoardWon == 1) {
                 winningNumber = values[nBallDrawn];
                 winningSquare = squareChecked;
-                printf("WINNING SQUARE %d \n", winningSquare);
                 return winningNumber * squareValue(squares[winningSquare]);
               }
             }
@@ -186,7 +185,6 @@ int partTwo() {
               squares[squareChecked].Box[row][col].isHit = 1;
               hasBoardWon = checkForWin(squares[squareChecked], row, col);
               if (hasBoardWon == 1) {
-                printf("%d \n", winningSquare);
                 squares[squareChecked].hasWon = 1;
                 winningNumber = values[nBallDrawn];
                 winningSquare = squareChecked;
