@@ -18,13 +18,13 @@ int partOne() {
   int b[MAPSIZE][MAPSIZE];
   int i;
   int j;
+  int count = 0;
   for (i = 0; i < MAPSIZE; i++) {
     for (j = 0; j < MAPSIZE; j++) {
       b[i][j] = 0;
     }
   }
 
-  int count = 0;
   FILE* in_file = fopen(INPUT, "r");
   if (in_file == NULL) {
     printf("File doesnt exist");
@@ -43,20 +43,18 @@ int partOne() {
       for (xI = min(src.x, dest.x); xI <= max(src.x, dest.x); xI++) {
         b[xI][src.y] += 1;
       }
-    }
-    else{
+    } else {
       struct Point diagSrc;
       struct Point diagDest;
       int length;
-      if (src.x> dest.x){
+      if (src.x > dest.x) {
         printf("%d %d", src.x, dest.x);
         length = src.x - dest.x;
         diagSrc.x = dest.x;
         diagSrc.y = dest.y;
         diagDest.x = src.x;
         diagDest.y = src.y;
-      }
-      else{
+      } else {
         printf("HIT");
         length = dest.x - src.x;
         diagSrc.x = src.x;
@@ -66,19 +64,18 @@ int partOne() {
       }
 
       /* If rising */
-      if (diagDest.y < diagSrc.y){
-        printf("%d, %d -> %d, %d :: %d\n", src.x, src.y, dest.x, dest.y, length);
-        for (i = 0; i <= length; i++){
-          printf("%d, %d \n", diagSrc.x+i, diagSrc.y-i);
-          b[diagSrc.x+i][diagSrc.y-i] += 1;
+      if (diagDest.y < diagSrc.y) {
+        printf("%d, %d -> %d, %d :: %d\n", src.x, src.y, dest.x, dest.y,
+               length);
+        for (i = 0; i <= length; i++) {
+          printf("%d, %d \n", diagSrc.x + i, diagSrc.y - i);
+          b[diagSrc.x + i][diagSrc.y - i] += 1;
+        }
+      } else {
+        for (i = 0; i <= length; i++) {
+          b[diagSrc.x + i][diagSrc.y + i] += 1;
         }
       }
-      else{
-            for (i = 0; i <= length; i++){
-          b[diagSrc.x+i][diagSrc.y+i] += 1;
-        }    
-      }
-
     }
   }
 
