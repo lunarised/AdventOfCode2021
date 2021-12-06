@@ -1,7 +1,8 @@
-#include <./06/BigInt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "BigInt.h"
 
 #define INPUT "input.text"
 #define nSTEPS1 80
@@ -71,9 +72,6 @@ int partTwo() {
     states[fish] += 1;
     token = strtok(NULL, ",");
   }
-  printf("%d, %d, %d, %d, %d, %d, %d, %d, %d\n", states[0], states[1],
-         states[2], states[3], states[4], states[5], states[6], states[7],
-         states[8]);
   for (i = 0; i < nSTEPS2; i++) {
     int j = 0;
     BigInt* zeroth = states[0];
@@ -92,7 +90,7 @@ int partTwo() {
 }
 
 int main() {
-  printf("%d", partOne());
+  /* printf("%d\n", partOne()); */
   partTwo();
   return EXIT_SUCCESS;
 }
