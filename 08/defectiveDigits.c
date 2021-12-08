@@ -56,6 +56,7 @@ int partTwo() {
   char sSD[7];
   int answerArr[4];
   int indexes[10];
+  int invIndexes[10];
   int sum = 0;
   int i = 0;
   FILE* in_file = fopen(INPUT, "r");
@@ -72,15 +73,19 @@ int partTwo() {
       switch (strlen(letters[i])) {
         case 2:
           indexes[1] = i;
+          invIndexes[i] = 1;
           break;
         case 3:
           indexes[7] = i;
+          invIndexes[i] = 7;
           break;
         case 4:
           indexes[4] = i;
+          invIndexes[i] = 4;
           break;
         case 7:
           indexes[8] = i;
+          invIndexes[i] = 8;
           break;
 
         default:
@@ -114,11 +119,13 @@ int partTwo() {
         /* MUTEX CLAUSES */
         if (!firstMatch == 1) {
           indexes[6] = i;
+          invIndexes[i] = 6;
           sSD[2] = letters[indexes[1]][0];
           sSD[5] = letters[indexes[1]][1];
         }
         if (!secMatch == 1) {
           indexes[6] = i;
+          invIndexes[i] = 6;
           sSD[2] = letters[indexes[1]][1];
           sSD[5] = letters[indexes[1]][0];
         }
@@ -140,10 +147,13 @@ int partTwo() {
 
         if (tR == 0) {
           indexes[5] = i;
+          invIndexes[i] = 5;
         } else if (bR == 0) {
           indexes[2] = i;
+          invIndexes[i] = 2;
         } else {
           indexes[3] = i;
+          invIndexes[i] = 3;
         }
       }
     }
@@ -167,8 +177,10 @@ int partTwo() {
 
         if (count == 5) {
           indexes[9] = i;
+          invIndexes[i] = 9;
         } else {
           indexes[0] = i;
+          invIndexes[i] = 0;
         }
       }
     }
@@ -179,23 +191,18 @@ int partTwo() {
       for (j = 0; j < 10; j++) {
         if (strcmp(inputs[i], letters[j]) == 0) {
           letInd = j;
+          answerArr[i] = invIndexes[j];
           break;
         }
       }
-
-      for (j = 0; j < 10; j++) {
-        if (indexes[j] == letInd) {
-          answerArr[i] = j;
-        }
-      }
     }
-
     sum += foldSum(answerArr);
   }
   return sum;
 }
 
 int main() {
-  printf("\n%d", partTwo());
+  printf("%d\n", partOne());
+  printf("%d\n", partTwo());
   return EXIT_SUCCESS;
 }
