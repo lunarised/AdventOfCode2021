@@ -83,7 +83,7 @@ int partTwo() {
 }
 
 int main() {
-  printf("%d", partOne());
-  printf("%d", partTwo());
+  printf("%d\n", partOne());
+  printf("%d\n", partTwo());
   return EXIT_SUCCESS;
 }
