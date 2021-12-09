@@ -1,19 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define INPUT "test.text"
-#define MAPY 5
-#define MAPX 10
-
+#define INPUT "input.text"
+#define MAPY 100
+#define MAPX 100
+int comp(const void* elem1, const void* elem2) {
+  int f = *((int*)elem1);
+  int s = *((int*)elem2);
+  if (f < s) return 1;
+  if (f > s) return -1;
+  return 0;
+}
 int floodFill(int x, int y, int map[MAPY][MAPX]) {
   int count = 1;
   if (map[y][x] == 9) {
     return 0;
   }
-  count += floodFill(x + 1, y, map);
-  count += floodFill(x - 1, y, map);
-  count += floodFill(x, y + 1, map);
-  count += floodFill(x, y - 1, map);
+  map[y][x] = 9;
+  if (x > 0) {
+    count += floodFill(x - 1, y, map);
+  }
+  if (x < MAPX - 1) {
+    count += floodFill(x + 1, y, map);
+  }
+  if (y > 0) {
+    count += floodFill(x, y - 1, map);
+  }
+  if (y < MAPY - 1) {
+    count += floodFill(x, y + 1, map);
+  }
   return count;
 }
 
@@ -104,14 +119,13 @@ struct Point {
 };
 
 int partTwo() {
-  static int map2[MAPY][MAPX];
+  int map2[MAPY][MAPX];
   char line[MAPX + 2];
   int i;
   int j;
   int basinSizes[500] = {-2};
   struct Point localMinima[500];
   int nMinima = 0;
-  int sum = 0;
   FILE* in_file = fopen(INPUT, "r");
   if (in_file == NULL) {
     printf("File doesnt exist");
@@ -223,11 +237,12 @@ int partTwo() {
   for (i = 0; i < nMinima; i++) {
     basinSizes[i] = floodFill(localMinima[i].x, localMinima[i].y, map2);
   }
-  return basinSizes[0];
+  qsort(basinSizes, nMinima, sizeof(int), comp);
+  return ((basinSizes[0] * basinSizes[1]) * basinSizes[2]);
 }
 
 int main() {
-  printf("%d", partOne());
-  printf("%d", partTwo());
+  printf("%d\n", partOne());
+  printf("%d\n", partTwo());
   return EXIT_SUCCESS;
 }
