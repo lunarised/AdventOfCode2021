@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define INPUT "input.text"
-#define MAPY 100
-#define MAPX 100
+#define INPUT "test.text"
+#define MAPY 5
+#define MAPX 10
 
 int floodFill(int x, int y, int map[MAPY][MAPX]) {
-  int count = 0;
+  int count = 1;
   if (map[y][x] == 9) {
     return 0;
   }
@@ -223,7 +223,7 @@ int partTwo() {
   for (i = 0; i < nMinima; i++) {
     basinSizes[i] = floodFill(localMinima[i].x, localMinima[i].y, map2);
   }
-  return basinSizes[20];
+  return basinSizes[0];
 }
 
 int main() {
