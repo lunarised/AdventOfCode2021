@@ -3,17 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 #define INPUT "input.text"
+#pragma GCC diagnostic ignored "-Wsign-compare"
+
 struct Stack {
-  char top;
+  int top;
   unsigned capacity;
-  char* array;
+  int* array;
 };
 
 struct Stack* createStack(unsigned capacity) {
   struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
   stack->capacity = capacity;
   stack->top = -1;
-  stack->array = (char*)malloc(stack->capacity * sizeof(char));
+  stack->array = (int*)malloc(stack->capacity * sizeof(int));
   return stack;
 }
 
@@ -21,7 +23,7 @@ int isFull(struct Stack* stack) { return stack->top == stack->capacity - 1; }
 
 int isEmpty(struct Stack* stack) { return stack->top == -1; }
 
-void push(struct Stack* stack, char item) {
+void push(struct Stack* stack, int item) {
   if (isFull(stack)) return;
   stack->array[++stack->top] = item;
 }
@@ -115,7 +117,6 @@ long long int partTwo() {
   long long int scores[100];
   int winningLines = 0;
   char line[500];
-  int totalValue = 0;
   int i = 0;
   FILE* in_file = fopen(INPUT, "r");
 
