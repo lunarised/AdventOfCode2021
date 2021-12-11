@@ -99,23 +99,20 @@ int partOne() {
           break;
       }
     }
-    if (value == 0) {
-      printf("Completed String Start Here\n");
-    }
   }
   return totalValue;
 }
 
 int comp(const void* elem1, const void* elem2) {
-  int f = *((int*)elem1);
-  int s = *((int*)elem2);
+  long long int f = *((long long int*)elem1);
+  long long int s = *((long long int*)elem2);
   if (f > s) return 1;
   if (f < s) return -1;
   return 0;
 }
 
-int partTwo() {
-  int scores[100];
+long long int partTwo() {
+  long long int scores[100];
   int winningLines = 0;
   char line[500];
   int totalValue = 0;
@@ -179,10 +176,9 @@ int partTwo() {
       }
     }
     if (fail == 0 && peek(synStack) != -1) {
-      long long value = 0;
+      long long int value = 0;
       while (peek(synStack) != -1) {
         char symbol = pop(synStack);
-        printf("%c", symbol);
         switch (symbol) {
           case '\0':
             break;
@@ -195,7 +191,7 @@ int partTwo() {
             value += 2;
             break;
           case '{':
-            value *= 5;
+            value *= (long long int)5;
             value += 3;
             break;
           case '<':
@@ -206,16 +202,16 @@ int partTwo() {
             break;
         }
       }
-      printf("%d\n", value);
       scores[winningLines] = value;
       winningLines++;
     }
   }
-  qsort(scores, winningLines, sizeof(long long), comp);
+  qsort(scores, winningLines, sizeof(long long int), comp);
   return scores[winningLines / 2];
 }
 
 int main() {
-  printf("%d", partTwo());
+  printf("%d\n", partOne());
+  printf("%lld\n", partTwo());
   return EXIT_SUCCESS;
 }
